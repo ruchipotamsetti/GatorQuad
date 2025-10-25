@@ -38,7 +38,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   }
 
   if (!triageResult) {
-    return null; // Don't show anything if there's no result yet
+    return null; 
   }
 
   const renderContent = () => {
@@ -47,14 +47,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         return (
           <div className="p-6 bg-red-100 border-l-4 border-red-500 text-red-800 rounded-r-lg">
             <h2 className="text-2xl font-bold mb-2">EMERGENCY</h2>
-            <p className="text-lg">Based on your symptoms, please call 911 or go to the nearest emergency room immediately.</p>
+            <p className="text-lg">{triageResult.recommendation}</p>
           </div>
         );
       case Urgency.URGENT:
         return (
           <div className="p-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
             <h2 className="text-2xl font-bold mb-2">URGENT CARE RECOMMENDED</h2>
-            <p className="mb-4">Your symptoms may require prompt attention. Please consider visiting an urgent care center.</p>
+            <p className="mb-4">{triageResult.recommendation}</p>
             <h3 className="text-xl font-semibold mb-3">Nearby Urgent Care Centers:</h3>
             <div className="space-y-3">
               {urgentCareCenters?.map(center => (
@@ -72,14 +72,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           return (
             <div className="p-6 bg-blue-100 border-l-4 border-blue-500 text-blue-800 rounded-r-lg">
               <h2 className="text-2xl font-bold mb-2">ROUTINE CARE NEEDED</h2>
-              <p>The AI suggests you see a <strong>{triageResult.specialist || 'specialist'}</strong>. Unfortunately, no matching doctors were found based on your criteria. Please try expanding your search.</p>
+              <p>{triageResult.recommendation}</p>
             </div>
           );
         }
         return (
           <div className="p-6 bg-green-50 border border-green-200 rounded-lg">
             <h2 className="text-2xl font-bold mb-1 text-green-800">ROUTINE CARE NEEDED</h2>
-            <p className="text-gray-700 mb-4">The AI suggests you see a <strong>{triageResult.specialist}</strong> for your symptoms. Here are some specialists who match your needs, ranked by relevance and distance:</p>
+            <p className="text-gray-700 mb-4">{triageResult.recommendation}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {rankedSpecialists.map(doctor => (
                 <DoctorCard key={doctor.id} doctor={doctor} />
@@ -103,6 +103,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           }`}>{triageResult.urgency}</span></p>
         {triageResult.specialist && <p><span className="font-semibold">Suggested Specialist:</span> {triageResult.specialist}</p>}
         <p><span className="font-semibold">Symptom Keywords:</span> {triageResult.keywords.join(', ')}</p>
+        {triageResult.confidenceScore && <p><span className="font-semibold">Confidence:</span> {Math.round(triageResult.confidenceScore * 100)}%</p>}
       </div>
       {renderContent()}
     </div>

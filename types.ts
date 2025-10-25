@@ -13,6 +13,11 @@ export interface Specialist {
   urgentAvailability: string | null; // ISO date string "YYYY-MM-DD"
 }
 
+export interface Message {
+  sender: 'user' | 'ai';
+  text: string;
+}
+
 export interface UrgentCareCenter {
   id: number;
   name: string;
