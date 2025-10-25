@@ -1,0 +1,136 @@
+
+import type { Specialist, UrgentCareCenter } from '../types';
+
+export const specialistsDB: Specialist[] = [
+  {
+    id: 1,
+    name: "Dr. Eleanor Vance",
+    specialty: "Neurology",
+    location: { latitude: 28.5383, longitude: -81.3792, address: "123 Brainiac Ave, Orlando, FL" },
+    acceptedInsurance: ["Florida Blue", "Aetna", "Cigna"],
+    expertise: ["stroke", "headache", "migraine", "epilepsy", "TIA"],
+    urgentAvailability: "2024-08-10",
+  },
+  {
+    id: 2,
+    name: "Dr. Ben Carter",
+    specialty: "Cardiology",
+    location: { latitude: 28.5480, longitude: -81.3842, address: "456 Heartbeat Rd, Orlando, FL" },
+    acceptedInsurance: ["Aetna", "UnitedHealthcare"],
+    expertise: ["arrhythmia", "hypertension", "heart failure", "chest pain"],
+    urgentAvailability: "2024-08-12",
+  },
+  {
+    id: 3,
+    name: "Dr. Olivia Chen",
+    specialty: "Neurology",
+    location: { latitude: 28.6139, longitude: -81.2001, address: "789 Nerve Center, Oviedo, FL" },
+    acceptedInsurance: ["Florida Blue", "UnitedHealthcare", "Cigna"],
+    expertise: ["headache", "migraine", "multiple sclerosis"],
+    urgentAvailability: null,
+  },
+  {
+    id: 4,
+    name: "Dr. Marcus Thorne",
+    specialty: "Cardiology",
+    location: { latitude: 28.4296, longitude: -81.4791, address: "101 Pulse Pl, Kissimmee, FL" },
+    acceptedInsurance: ["Florida Blue", "Aetna"],
+    expertise: ["arrhythmia", "atrial fibrillation", "pacemakers"],
+    urgentAvailability: null,
+  },
+  {
+    id: 5,
+    name: "Dr. Sofia Rodriguez",
+    specialty: "Dermatology",
+    location: { latitude: 28.5709, longitude: -81.3792, address: "222 Skin Deep Dr, Winter Park, FL" },
+    acceptedInsurance: ["Cigna", "UnitedHealthcare"],
+    expertise: ["acne", "eczema", "skin cancer screening"],
+    urgentAvailability: "2024-08-15",
+  },
+  {
+    id: 6,
+    name: "Dr. Liam Goldberg",
+    specialty: "Gastroenterology",
+    location: { latitude: 28.5391, longitude: -81.3739, address: "333 Gut Feeling Gt, Orlando, FL" },
+    acceptedInsurance: ["Florida Blue", "Aetna", "Cigna"],
+    expertise: ["IBS", "Crohn's disease", "acid reflux"],
+    urgentAvailability: null,
+  },
+  {
+    id: 7,
+    name: "Dr. Chloe Davis",
+    specialty: "Cardiology",
+    location: { latitude: 28.6500, longitude: -81.3359, address: "555 Cardio Care Ct, Lake Mary, FL" },
+    acceptedInsurance: ["Florida Blue", "Cigna"],
+    expertise: ["hypertension", "cholesterol management", "preventive cardiology"],
+    urgentAvailability: "2024-08-11",
+  },
+  {
+    id: 8,
+    name: "Dr. Ethan Martinez",
+    specialty: "Neurology",
+    location: { latitude: 28.3772, longitude: -81.5707, address: "444 Synapse Street, Lake Buena Vista, FL" },
+    acceptedInsurance: ["Aetna", "UnitedHealthcare"],
+    expertise: ["stroke", "dementia", "Parkinson's disease"],
+    urgentAvailability: null,
+  },
+  {
+    id: 9,
+    name: "Dr. Ava Nguyen",
+    specialty: "Orthopedics",
+    location: { latitude: 28.5516, longitude: -81.4572, address: "666 Bone Joint Blvd, Ocoee, FL" },
+    acceptedInsurance: ["Florida Blue", "Aetna"],
+    expertise: ["knee pain", "sports injuries", "joint replacement"],
+    urgentAvailability: "2024-08-18",
+  },
+  {
+    id: 10,
+    name: "Dr. Noah Patel",
+    specialty: "Endocrinology",
+    location: { latitude: 28.6122, longitude: -81.3659, address: "777 Hormone Hwy, Altamonte Springs, FL" },
+    acceptedInsurance: ["Cigna", "UnitedHealthcare"],
+    expertise: ["diabetes", "thyroid disorders", "metabolism"],
+    urgentAvailability: null,
+  },
+  {
+    id: 11,
+    name: "Dr. Isabella Kim",
+    specialty: "Cardiology",
+    location: { latitude: 28.5383, longitude: -81.3792, address: "888 Aorta Ave, Orlando, FL" },
+    acceptedInsurance: ["Florida Blue", "UnitedHealthcare"],
+    expertise: ["chest pain", "coronary artery disease", "echocardiography"],
+    urgentAvailability: null,
+  },
+  {
+    id: 12,
+    name: "Dr. James O'Connell",
+    specialty: "Neurology",
+    location: { latitude: 28.4711, longitude: -81.4669, address: "999 Cerebellum Circle, Dr. Phillips, FL" },
+    acceptedInsurance: ["Florida Blue", "Cigna"],
+    expertise: ["TIA", "headache", "neuropathy"],
+    urgentAvailability: "2024-08-14",
+  }
+];
+
+export const urgentCareDB: UrgentCareCenter[] = [
+  {
+    id: 1,
+    name: "QuickCare Orlando",
+    location: { latitude: 28.5380, longitude: -81.3785, address: "100 Downtown Care, Orlando, FL" },
+    hours: "8am - 8pm Daily",
+  },
+  {
+    id: 2,
+    name: "FastHeal Winter Park",
+    location: { latitude: 28.5973, longitude: -81.3484, address: "200 WP Express, Winter Park, FL" },
+    hours: "9am - 9pm Daily",
+  },
+  {
+    id: 3,
+    name: "Immediate Health Kissimmee",
+    location: { latitude: 28.3039, longitude: -81.4442, address: "300 Southside Med, Kissimmee, FL" },
+    hours: "7am - 10pm Daily",
+  },
+];
+
+export const insuranceOptions = ["Florida Blue", "Aetna", "Cigna", "UnitedHealthcare"];
