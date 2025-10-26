@@ -1,8 +1,11 @@
-import React from 'react';
+// components/Header.tsx  (root/components)
+import React from "react";
+import { logout } from "../src/ProtectedRoute";  // ← note the /src here
 
 const Header = () => (
   <header className="bg-white shadow-md">
     <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      {/* Left side brand */}
       <div className="flex items-center space-x-3">
         <div className="p-2 bg-indigo-600 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -11,6 +14,14 @@ const Header = () => (
         </div>
         <h1 className="text-xl md:text-2xl font-bold text-indigo-600">PrecisionPass AI</h1>
       </div>
+
+      {/* Right side logout */}
+      <button
+        onClick={logout}
+        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
+      >
+        Logout
+      </button>
     </div>
   </header>
 );
