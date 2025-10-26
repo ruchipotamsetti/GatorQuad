@@ -1,29 +1,30 @@
 // components/Header.tsx  (root/components)
-import React from "react";
-import { logout } from "../src/ProtectedRoute";  // ← note the /src here
+import React from 'react';
+import type { Doctor } from '../types';
 
-const Header = () => (
-  <header className="bg-white shadow-md">
-    <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-      {/* Left side brand */}
-      <div className="flex items-center space-x-3">
-        <div className="p-2 bg-indigo-600 rounded-full">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+interface HeaderProps {
+  loggedInDoctor: Doctor | null;
+  onLogout: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ loggedInDoctor, onLogout }) => {
+  return (
+    <header className="bg-white shadow-md">
+      <nav className="container mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+        <a href="#/" className="text-2xl font-bold text-indigo-600">PrecisionPass AI</a>
+        <div>
+          {loggedInDoctor ? (
+            <div className="flex items-center">
+              <span className="text-sm font-medium text-gray-700 mr-4">Welcome, {loggedInDoctor.name}</span>
+              <button onClick={onLogout} className="text-sm font-medium text-indigo-600 hover:text-indigo-800">Logout</button>
+            </div>
+          ) : (
+            <a href="#/doctor" className="text-sm font-medium text-gray-600 hover:text-indigo-600">Doctor Portal</a>
+          )}
         </div>
-        <h1 className="text-xl md:text-2xl font-bold text-indigo-600">PrecisionPass AI</h1>
-      </div>
-
-      {/* Right side logout */}
-      <button
-        onClick={logout}
-        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
-      >
-        Logout
-      </button>
-    </div>
-  </header>
-);
+      </nav>
+    </header>
+  );
+};
 
 export default Header;
