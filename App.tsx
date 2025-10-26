@@ -70,7 +70,7 @@ function App() {
     setUserLocation(null);
     setIsChatting(true);
 
-    const location = getCoordsFromZip(zipCode);
+    const location = await getCoordsFromZip(zipCode);
     if (!location) {
       setError("Invalid ZIP code. Please try again.");
       setIsLoading(false);
