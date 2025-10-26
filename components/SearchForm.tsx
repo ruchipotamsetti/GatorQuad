@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { insuranceOptions } from '../data/mockData';
 
 interface SearchFormProps {
@@ -12,6 +12,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const [insurance, setInsurance] = useState('any');
   const [radius, setRadius] = useState('10'); // Default to 10 miles
   const [error, setError] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +23,71 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
     }
     setError('');
     onSearch(symptoms, zipCode, insurance, parseInt(radius, 10));
+  };
+
+  // Setup SpeechRecognition for live voice-to-text
+  useEffect(() => {
+    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition || (window as any).mozSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    const recog = new SpeechRecognition();
+    recog.continuous = true;
+    recog.interimResults = true;
+    recog.lang = 'en-US';
+
+    recog.onresult = (event: any) => {
+      let interim = '';
+      let final = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const res = event.results[i];
+        if (res.isFinal) final += res[0].transcript;
+        else interim += res[0].transcript;
+      }
+      if (final) {
+        setSymptoms(prev => (prev ? prev + ' ' : '') + final.trim());
+      }
+    };
+
+    recog.onerror = (e: any) => {
+      console.warn('SpeechRecognition error', e);
+    };
+
+    recognitionRef.current = recog;
+
+    return () => {
+      try {
+        recog.onresult = null;
+        recog.onerror = null;
+        recog.stop && recog.stop();
+      } catch (e) {
+        // ignore
+      }
+      recognitionRef.current = null;
+    };
+  }, []);
+
+  const toggleRecording = () => {
+    const recog = recognitionRef.current;
+    if (!recog) {
+      alert('Live transcription is not supported by this browser. Try Chrome or Edge.');
+      return;
+    }
+
+    if (!isRecording) {
+      try {
+        recog.start();
+        setIsRecording(true);
+      } catch (e) {
+        console.warn('Could not start recognition:', e);
+      }
+    } else {
+      try {
+        recog.stop();
+      } catch (e) {
+        // ignore
+      }
+      setIsRecording(false);
+    }
   };
 
   return (
@@ -43,6 +110,15 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
             onChange={(e) => setSymptoms(e.target.value)}
             disabled={isLoading}
           />
+
+          <button
+            type="button"
+            onClick={toggleRecording}
+            disabled={isLoading}
+            className={`mt-2 px-4 py-2 rounded-md border ${isRecording ? 'bg-red-500 text-white' : 'bg-indigo-600 text-white'} shadow-sm`}
+          >
+            {isRecording ? 'Stop' : 'Record'}
+          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
