@@ -27,20 +27,38 @@ function deg2rad(deg: number): number {
 }
 
 /**
- * Mocks the conversion of a zip code to latitude and longitude.
- * In a real application, this would use a geocoding API.
+ * Converts ANY U.S. ZIP code to latitude & longitude using a free API.
+ * Results are cached for performance.
  */
-export function getCoordsFromZip(zip: string): { latitude: number; longitude: number } | null {
-  // Simple mock for demonstration. Returns coordinates for Orlando, FL for a common zip.
-  if (zip.startsWith("328")) {
-    return { latitude: 28.5383, longitude: -81.3792 };
+export type LatLng = { latitude: number; longitude: number };
+
+const cache: Record<string, LatLng> = {}; // in-memory cache
+
+export async function getCoordsFromZip(zip: string): Promise<LatLng | null> {
+  const z = (zip || "").trim();
+
+  // Valid ZIP check
+  if (!/^\d{5}$/.test(z)) return null;
+
+  // ✅ Cached? return instantly
+  if (cache[z]) return cache[z];
+
+  try {
+    const response = await fetch(`https://api.zippopotam.us/us/${z}`);
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const place = data.places?.[0];
+    if (!place) return null;
+
+    const coords = {
+      latitude: parseFloat(place.latitude),
+      longitude: parseFloat(place.longitude),
+    };
+
+    cache[z] = coords; 
+    return coords;
+  } catch {
+    return null;
   }
-  // Add more mock zips if needed
-  if (zip.startsWith("327")) {
-    return { latitude: 28.6500, longitude: -81.3359 }; // Lake Mary
-  }
-  if (zip.startsWith("347")) {
-    return { latitude: 28.4296, longitude: -81.4791 }; // Kissimmee
-  }
-  return null; // Invalid or unmocked zip
 }
