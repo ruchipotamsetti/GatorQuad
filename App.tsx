@@ -4,6 +4,7 @@ import SearchForm from './components/SearchForm';
 import ResultsDisplay from './components/ResultsDisplay';
 import ChatWindow from './components/ChatWindow';
 import DoctorLogin from './components/doctor/DoctorLogin';
+import PatientLogin from './components/patient/PatientLogin';
 import DoctorDashboard from './components/doctor/DoctorDashboard';
 import PatientCard from './components/doctor/PatientCard';
 import PostTriageChoice from './components/PostTriageChoice';
@@ -26,6 +27,7 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [route, setRoute] = useState(window.location.hash || '#/');
   const [loggedInDoctor, setLoggedInDoctor] = useState<Doctor | null>(null);
+  const [loggedInPatient, setLoggedInPatient] = useState<string | null>(null);
   const [patientRequests, setPatientRequests] = useState<PatientRequest[]>(patientRequestsDB);
   const [selectedRequest, setSelectedRequest] = useState<PatientRequest | null>(null);
 
@@ -166,8 +168,23 @@ function App() {
     }
   };
 
+  const handlePatientLogin = (email: string, password: string) => {
+    if (email === 'demo@example.com' && password === 'password123') {
+      setLoggedInPatient(email);
+      setError(null);
+    } else {
+      setError('Invalid credentials');
+    }
+  };
+
+  const handlePatientLogout = () => {
+    setLoggedInPatient(null);
+    window.location.hash = '#/';
+  };
+
   const handleLogout = () => {
     setLoggedInDoctor(null);
+    setLoggedInPatient(null);
     window.location.hash = '#/';
   };
 
@@ -224,6 +241,10 @@ function App() {
 
   const renderPatientContent = () => {
     if (route === '#/patient/login') {
+      if (!loggedInPatient) {
+        return <PatientLogin onLogin={handlePatientLogin} error={error} />;
+      }
+
       if (isChatting) {
         return <ChatWindow messages={messages} onSendMessage={handleSendMessage} isLoading={isLoading} />;
       }
@@ -295,7 +316,7 @@ function App() {
 
   return (
     <div className="bg-gray-50 min-h-screen font-sans">
-      <Header key={loggedInDoctor ? loggedInDoctor.id : 'logged-out'} loggedInDoctor={loggedInDoctor} onLogout={handleLogout} />
+      <Header key={loggedInDoctor ? loggedInDoctor.id : 'logged-out'} loggedInDoctor={loggedInDoctor} onLogout={handleLogout} loggedInPatient={loggedInPatient} onPatientLogout={handlePatientLogout} />
       {renderContent()}
       <footer className="text-center py-4 mt-8">
         <p className="text-sm text-gray-500">
