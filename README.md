@@ -1,4 +1,4 @@
-# Precision Fast-Pass 
+# MediConnect 
 
 **UF AI Days Hackathon Project**
 
@@ -14,9 +14,9 @@ This leads to delayed care, poorer health outcomes, and immense patient frustrat
 
 ---
 
-## Our Solution: Precision Fast-Pass
+## Our Solution: MediConnect
 
-Precision Fast-Pass is an AI-powered application designed to intelligently connect patients with the most appropriate, available, in-network specialist, prioritizing urgent needs.
+MediConnect is an AI-powered application designed to intelligently connect patients with the most appropriate, available, in-network specialist, prioritizing urgent needs.
 
 ### How it Works
 
